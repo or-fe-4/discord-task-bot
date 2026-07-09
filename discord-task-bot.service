@@ -1,0 +1,16 @@
+[Unit]
+Description=Discord Task Bot
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+# 実際にリポジトリを置くパスに合わせて書き換えてください
+WorkingDirectory=/home/ubuntu/discord-task-bot
+ExecStart=/home/ubuntu/discord-task-bot/.venv/bin/python bot.py
+Restart=on-failure
+RestartSec=5
+User=ubuntu
+
+[Install]
+WantedBy=multi-user.target
