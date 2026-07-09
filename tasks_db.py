@@ -56,6 +56,15 @@ def remove_task(task_id: int) -> bool:
         return cur.rowcount > 0
 
 
+def update_task(task_id: int, new_description: str) -> bool:
+    with _connect() as conn:
+        cur = conn.execute(
+            "UPDATE tasks SET description = ? WHERE id = ?",
+            (new_description, task_id),
+        )
+        return cur.rowcount > 0
+
+
 def list_tasks() -> list[Task]:
     with _connect() as conn:
         rows = conn.execute(

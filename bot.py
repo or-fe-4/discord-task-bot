@@ -75,6 +75,22 @@ async def task_remove(interaction: discord.Interaction, task_id: int):
         )
 
 
+@task_group.command(name="edit", description="タスクの内容を編集する")
+@app_commands.describe(
+    task_id="編集するタスクのID (一覧に表示される番号)",
+    new_description="新しいタスクの内容",
+)
+async def task_edit(interaction: discord.Interaction, task_id: int, new_description: str):
+    if tasks_db.update_task(task_id, new_description):
+        await interaction.response.send_message(
+            f"タスク `#{task_id}` を更新したよ: {new_description}"
+        )
+    else:
+        await interaction.response.send_message(
+            f"`#{task_id}` というタスクは見つからなかった", ephemeral=True
+        )
+
+
 @task_group.command(name="list", description="現在のタスク一覧を表示する")
 async def task_list(interaction: discord.Interaction):
     await interaction.response.send_message(format_task_list())
